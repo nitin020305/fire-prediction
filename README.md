@@ -1,4 +1,4 @@
-# fire-# 🔥 Forest Fire Prediction (Flask + Random Forest)
+Forest Fire Prediction (Flask + Random Forest)
 
 A Machine Learning web application that predicts the probability of forest fire occurrence based on weather conditions.
 
