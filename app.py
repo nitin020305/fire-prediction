@@ -3,10 +3,14 @@ import numpy as np
 import pickle
 
 app = Flask(__name__)
-
-# Load model and scaler
+#----------------------------------------------------------------------------------------------
+#pickle files loading
 model = pickle.load(open("rf.pkl", "rb"))
 scaler = pickle.load(open("scaler.pkl", "rb"))
+#----------------------------------------------------------------------------------------------
+
+#----------------------------------------------------------------------------------------------
+#routing index page and forms
 
 @app.route('/')
 def home():
@@ -15,7 +19,9 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
+#----------------------------------------------------------------------------------
         # Get input values
+#----------------------------------------------------------------------------------
         features = [
             float(request.form['Temperature']),
             float(request.form['RH']),
@@ -26,14 +32,17 @@ def predict():
             float(request.form['ISI']),
             float(request.form['Region'])
         ]
-
+#----------------------------------------------------------------------------------
         # Convert to numpy
+#----------------------------------------------------------------------------------
         final_input = np.array([features])
-
+#----------------------------------------------------------------------------------
         # Scale input
+#----------------------------------------------------------------------------------
         scaled_input = scaler.transform(final_input)
-
+#----------------------------------------------------------------------------------
         # Predict probability
+#----------------------------------------------------------------------------------
         proba = model.predict_proba(scaled_input)
         fire_probability = proba[0][1] * 100
 
@@ -50,6 +59,7 @@ def predict():
 
     except:
         return render_template("index.html", prediction_text="Invalid Input!")
+#------------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
     app.run(debug=True)
